@@ -4,15 +4,8 @@ import { Injectable } from '@nestjs/common';
 export class InfoService {
   getInfo() {
     return {
-      about: 'yogger chicken: a headless running forum',
+      about: 'yogger chicken: a headless running blog',
       lastUpdated: new Date().toISOString(),
-      routeQueryParams: [
-        {
-          name: 'lang',
-          type: 'string',
-          description: 'Language code',
-        },
-      ],
       routes: [
         {
           verb: 'GET',
