@@ -30,9 +30,28 @@ export class InfoService {
           description: 'Daily quote and trending posts',
         },
         {
-          verb: 'GET',
-          path: '/posts',
-          description: 'All posts',
+          posts: [
+            {
+              verb: 'GET',
+              path: '/posts',
+              description: 'Index of all posts',
+            },
+            {
+              verb: 'GET',
+              path: '/posts/1',
+              description: 'Post with ID 1',
+            },
+            {
+              verb: 'POST',
+              path: '/posts',
+              description: 'Create a new post',
+            },
+            {
+              verb: 'PATCH',
+              path: '/posts/1',
+              description: 'Update post with ID 1',
+            },
+          ],
         },
       ],
     };
