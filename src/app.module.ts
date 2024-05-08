@@ -23,6 +23,10 @@ import { YcI18nModule } from './yc-i18n/yc-i18n.module';
         path: path.join(__dirname, '/locales/'),
         watch: true,
       },
+      typesOutputPath: path.join(
+        __dirname,
+        '../src/generated/i18n.generated.ts',
+      ),
       resolvers: [
         new QueryResolver(['lang']),
         AcceptLanguageResolver,
