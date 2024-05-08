@@ -8,6 +8,17 @@ export type I18nTranslations = {
     "common": {
         "about": string;
     };
+    "routes": {
+        "root": string;
+        "info": string;
+        "today": string;
+        "posts": {
+            "index": string;
+            "one": string;
+            "post": string;
+            "patch": string;
+        };
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;

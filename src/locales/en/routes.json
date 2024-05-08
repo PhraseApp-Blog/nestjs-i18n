@@ -1,0 +1,11 @@
+{
+  "root": "Redirects to /info",
+  "info": "You are here",
+  "today": "Daily quote and trending posts",
+  "posts": {
+    "index": "Index of all posts",
+    "one": "Post with ID 1",
+    "post": "Create a new post",
+    "patch": "Update a post with ID 1"
+  }
+}

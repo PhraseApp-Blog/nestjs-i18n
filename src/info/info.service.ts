@@ -13,39 +13,43 @@ export class InfoService {
         {
           verb: 'GET',
           path: '/',
-          description: 'Redirects to /info',
+          description: this.i18n.t('routes.root'),
         },
         {
           verb: 'GET',
           path: '/info',
-          description: 'You are here',
+          description: this.i18n.t('routes.info'),
         },
         {
           verb: 'GET',
           path: '/today',
-          description: 'Daily quote and trending posts',
+          description: this.i18n.t('routes.today'),
         },
         {
           posts: [
             {
               verb: 'GET',
               path: '/posts',
-              description: 'Index of all posts',
+              description: this.i18n.t(
+                'routes.posts.index',
+              ),
             },
             {
               verb: 'GET',
               path: '/posts/1',
-              description: 'Post with ID 1',
+              description: this.i18n.t('routes.posts.one'),
             },
             {
               verb: 'POST',
               path: '/posts',
-              description: 'Create a new post',
+              description: this.i18n.t('routes.posts.post'),
             },
             {
               verb: 'PATCH',
               path: '/posts/1',
-              description: 'Update post with ID 1',
+              description: this.i18n.t(
+                'routes.posts.patch',
+              ),
             },
           ],
         },
