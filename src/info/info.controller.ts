@@ -1,10 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import { I18n, I18nContext } from 'nestjs-i18n';
+import { YcI18nService } from 'src/yc-i18n/yc-i18n.service';
 import { InfoService } from './info.service';
 
 @Controller('info')
 export class InfoController {
-  constructor(private readonly infoService: InfoService) {}
+  constructor(
+    private readonly i18n: YcI18nService,
+    private readonly infoService: InfoService,
+  ) {}
 
   @Get()
   getInfo() {
@@ -12,7 +15,7 @@ export class InfoController {
   }
 
   @Get('about')
-  getAbout(@I18n() i18n: I18nContext) {
-    return i18n.t('common.about');
+  getAbout() {
+    return this.i18n.t('common.about');
   }
 }

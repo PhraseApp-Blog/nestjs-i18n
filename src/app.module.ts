@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { InfoModule } from './info/info.module';
 import { PostsModule } from './posts/posts.module';
 import { TodayModule } from './today/today.module';
+import { YcI18nModule } from './yc-i18n/yc-i18n.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TodayModule } from './today/today.module';
       },
       resolvers: [new QueryResolver(['lang'])],
     }),
+    YcI18nModule,
   ],
   controllers: [AppController],
   providers: [],
