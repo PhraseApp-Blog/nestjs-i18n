@@ -1,5 +1,10 @@
 import { Module } from '@nestjs/common';
-import { I18nModule, QueryResolver } from 'nestjs-i18n';
+import {
+  AcceptLanguageResolver,
+  HeaderResolver,
+  I18nModule,
+  QueryResolver,
+} from 'nestjs-i18n';
 import * as path from 'path';
 import { AppController } from './app.controller';
 import { InfoModule } from './info/info.module';
@@ -18,7 +23,11 @@ import { YcI18nModule } from './yc-i18n/yc-i18n.module';
         path: path.join(__dirname, '/locales/'),
         watch: true,
       },
-      resolvers: [new QueryResolver(['lang'])],
+      resolvers: [
+        new QueryResolver(['lang']),
+        AcceptLanguageResolver,
+        new HeaderResolver(['x-lang']),
+      ],
     }),
     YcI18nModule,
   ],
