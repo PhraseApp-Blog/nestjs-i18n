@@ -1,8 +1,9 @@
-// src/posts/posts.service.ts
 import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from './entities/post.entity';
@@ -14,28 +15,21 @@ export interface PostSummary {
 
 @Injectable()
 export class PostsService {
-  private posts: Post[] = [
-    {
-      id: 1,
-      title: 'First Post',
-      content: 'Content of the first post',
-    },
-    {
-      id: 2,
-      title: 'Second Post',
-      content: 'Content of the second post',
-    },
-  ];
+  constructor(
+    @InjectRepository(Post)
+    private postRepo: Repository<Post>,
+  ) {}
 
-  findAll(): PostSummary[] {
-    return this.posts.map(({ id, title }) => ({
-      id,
-      title,
-    }));
+  async findAll(): Promise<PostSummary[]> {
+    return await this.postRepo.find({
+      select: ['id', 'title'],
+    });
   }
 
-  findOne(id: number): Post {
-    const post = this.posts.find((p) => p.id === id);
+  async findOne(id: number): Promise<Post> {
+    const post = await this.postRepo.findOne({
+      where: { id },
+    });
     if (!post) {
       throw new NotFoundException(
         `Post with ID ${id} not found`,
@@ -44,21 +38,24 @@ export class PostsService {
     return post;
   }
 
-  create(createPostDto: CreatePostDto): Post {
-    const newPost: Post = {
-      id: this.posts.length + 1,
-      title: createPostDto.title,
-      content: createPostDto.content,
-    };
-    this.posts.push(newPost);
-    return newPost;
+  create(createPostDto: CreatePostDto): Promise<Post> {
+    const newPost = new Post();
+    newPost.title = createPostDto.title;
+    newPost.content = createPostDto.content;
+
+    return this.postRepo.save(newPost);
   }
 
-  update(id: number, updatePostDto: UpdatePostDto): Post {
-    const post = this.findOne(id);
+  async update(
+    id: number,
+    updatePostDto: UpdatePostDto,
+  ): Promise<Post> {
+    const post = await this.findOne(id);
 
-    post.title = updatePostDto.title ?? post.title;
-    post.content = updatePostDto.content ?? post.content;
+    if (post) {
+      post.title = updatePostDto.title ?? post.title;
+      post.content = updatePostDto.content ?? post.content;
+    }
 
     return post;
   }

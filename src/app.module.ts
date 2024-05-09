@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   AcceptLanguageResolver,
   HeaderResolver,
@@ -14,9 +15,13 @@ import { YcI18nModule } from './yc-i18n/yc-i18n.module';
 
 @Module({
   imports: [
-    InfoModule,
-    PostsModule,
-    TodayModule,
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'db.sqlite',
+      entities: [__dirname + '/**/*.entity.{ts,js}'],
+      synchronize: true,
+      logging: true,
+    }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {
@@ -34,6 +39,9 @@ import { YcI18nModule } from './yc-i18n/yc-i18n.module';
       ],
     }),
     YcI18nModule,
+    InfoModule,
+    PostsModule,
+    TodayModule,
   ],
   controllers: [AppController],
   providers: [],
