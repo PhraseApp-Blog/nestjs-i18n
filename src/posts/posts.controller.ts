@@ -20,27 +20,31 @@ export class PostsController {
   ) {}
 
   @Get()
-  findAll(): PostSummary[] {
+  async findAll(): Promise<PostSummary[]> {
     return this.postsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): PostEntity {
+  async findOne(
+    @Param('id') id: string,
+  ): Promise<PostEntity> {
     return this.postsService.findOne(+id);
   }
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  create(@Body() createPostDto: CreatePostDto): PostEntity {
+  async create(
+    @Body() createPostDto: CreatePostDto,
+  ): Promise<PostEntity> {
     return this.postsService.create(createPostDto);
   }
 
   @Patch(':id')
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
-  ): PostEntity {
+  ): Promise<PostEntity> {
     return this.postsService.update(+id, updatePostDto);
   }
 }
