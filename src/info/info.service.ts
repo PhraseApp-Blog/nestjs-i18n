@@ -13,7 +13,9 @@ export class InfoService {
         {
           verb: 'GET',
           path: '/',
-          description: this.i18n.t('routes.root'),
+          description: this.i18n.t('routes.root', {
+            args: { redirectedUrl: '/info' },
+          }),
         },
         {
           verb: 'GET',

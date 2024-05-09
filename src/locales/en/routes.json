@@ -1,5 +1,5 @@
 {
-  "root": "Redirects to /info",
+  "root": "Redirects to {redirectedUrl}",
   "info": "You are here",
   "today": "Daily quote and trending posts",
   "posts": {
