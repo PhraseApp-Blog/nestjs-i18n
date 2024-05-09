@@ -12,6 +12,7 @@ import { InfoModule } from './info/info.module';
 import { PostsModule } from './posts/posts.module';
 import { TodayModule } from './today/today.module';
 import { YcI18nModule } from './yc-i18n/yc-i18n.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { YcI18nModule } from './yc-i18n/yc-i18n.module';
     InfoModule,
     PostsModule,
     TodayModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [],
