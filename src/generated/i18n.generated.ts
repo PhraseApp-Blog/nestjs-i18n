@@ -30,6 +30,11 @@ export type I18nTranslations = {
             "other": string;
         };
     };
+    "validation": {
+        "required": string;
+        "length": string;
+        "string": string;
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;

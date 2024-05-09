@@ -1,23 +1,26 @@
 import {
   IsNotEmpty,
+  IsOptional,
   IsString,
   Length,
 } from 'class-validator';
 
 export class CreatePostDto {
-  @IsString()
-  @IsNotEmpty()
-  @Length(1, 255)
+  @IsString({ message: 'validation.string' })
+  @IsNotEmpty({ message: 'validation.required' })
+  @Length(1, 255, { message: 'validation.length' })
   title_en: string;
 
-  @IsString()
-  @Length(1, 255)
+  @IsOptional()
+  @IsString({ message: 'validation.string' })
+  @Length(1, 255, { message: 'validation.length' })
   title_ar: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'validation.string' })
+  @IsNotEmpty({ message: 'validation.required' })
   content_en: string;
 
-  @IsString()
+  @IsOptional()
+  @IsString({ message: 'validation.string' })
   content_ar: string;
 }
