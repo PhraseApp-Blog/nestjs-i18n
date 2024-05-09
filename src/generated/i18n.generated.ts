@@ -19,6 +19,17 @@ export type I18nTranslations = {
             "patch": string;
         };
     };
+    "today": {
+        "quote": string;
+        "plannedRun": {
+            "zero": string;
+            "one": string;
+            "two": string;
+            "few": string;
+            "many": string;
+            "other": string;
+        };
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;

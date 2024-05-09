@@ -1,0 +1,8 @@
+{
+  "quote": "If you want to win something, run 100 meters. If you want to experience something, run a marathon.",
+  "plannedRun": {
+    "one": "Running a kilometer today",
+    "other": "Running {count} kilometers today",
+    "zero": "Resting today"
+  }
+}
