@@ -11,7 +11,11 @@ import {
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post as PostEntity } from './entities/post.entity';
-import { PostSummary, PostsService } from './posts.service';
+import {
+  PostsService,
+  TranslatedPost,
+  TranslatedPostSummary,
+} from './posts.service';
 
 @Controller('posts')
 export class PostsController {
@@ -20,14 +24,14 @@ export class PostsController {
   ) {}
 
   @Get()
-  async findAll(): Promise<PostSummary[]> {
+  async findAll(): Promise<TranslatedPostSummary[]> {
     return this.postsService.findAll();
   }
 
   @Get(':id')
   async findOne(
     @Param('id') id: string,
-  ): Promise<PostEntity> {
+  ): Promise<TranslatedPost> {
     return this.postsService.findOne(+id);
   }
 

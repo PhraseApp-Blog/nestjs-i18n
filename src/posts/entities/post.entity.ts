@@ -10,8 +10,14 @@ export class Post {
   id: number;
 
   @Column()
-  title: string;
+  title_en: string;
+
+  @Column({ nullable: true })
+  title_ar: string;
 
   @Column()
-  content: string;
+  content_en: string;
+
+  @Column({ nullable: true })
+  content_ar: string;
 }

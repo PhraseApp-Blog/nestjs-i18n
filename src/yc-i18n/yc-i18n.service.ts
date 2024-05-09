@@ -12,7 +12,13 @@ export class YcI18nService {
   ) {}
 
   t(key: I18nPath, options?: Record<string, any>) {
-    const lang = I18nContext.current().lang;
-    return this.i18n.translate(key, { lang, ...options });
+    return this.i18n.translate(key, {
+      lang: this.lang(),
+      ...options,
+    });
+  }
+
+  lang(): 'en' | 'ar' {
+    return I18nContext.current().lang as 'en' | 'ar';
   }
 }

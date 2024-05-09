@@ -8,9 +8,16 @@ export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   @Length(1, 255)
-  title: string;
+  title_en: string;
+
+  @IsString()
+  @Length(1, 255)
+  title_ar: string;
 
   @IsString()
   @IsNotEmpty()
-  content: string;
+  content_en: string;
+
+  @IsString()
+  content_ar: string;
 }
