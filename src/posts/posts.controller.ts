@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -28,7 +29,15 @@ export class PostsController {
   async findOne(
     @Param('id') id: string,
   ): Promise<PostEntity> {
-    return this.postsService.findOne(+id);
+    const post = await this.postsService.findOne(+id);
+
+    if (!post) {
+      throw new NotFoundException(
+        `Post with ID ${id} not found`,
+      );
+    }
+
+    return post;
   }
 
   @Post()
@@ -45,6 +54,17 @@ export class PostsController {
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
   ): Promise<PostEntity> {
-    return this.postsService.update(+id, updatePostDto);
+    const post = await this.postsService.update(
+      +id,
+      updatePostDto,
+    );
+
+    if (!post) {
+      throw new NotFoundException(
+        `Post with ID ${id} not found`,
+      );
+    }
+
+    return post;
   }
 }
