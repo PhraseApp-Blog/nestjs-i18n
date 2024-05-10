@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -32,9 +33,7 @@ export class PostsController {
     const post = await this.postsService.findOne(+id);
 
     if (!post) {
-      throw new NotFoundException(
-        `Post with ID ${id} not found`,
-      );
+      this.throwNotFound(id);
     }
 
     return post;
@@ -60,11 +59,28 @@ export class PostsController {
     );
 
     if (!post) {
-      throw new NotFoundException(
-        `Post with ID ${id} not found`,
-      );
+      this.throwNotFound(id);
     }
 
     return post;
+  }
+
+  @Delete(':id')
+  async remove(
+    @Param('id') id: string,
+  ): Promise<{ message: string }> {
+    const ok = await this.postsService.remove(+id);
+
+    if (!ok) {
+      this.throwNotFound(id);
+    }
+
+    return { message: 'Post deleted' };
+  }
+
+  private throwNotFound(id: string): never {
+    throw new NotFoundException(
+      `Post with ID ${id} not found`,
+    );
   }
 }

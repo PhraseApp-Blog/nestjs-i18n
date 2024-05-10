@@ -52,4 +52,16 @@ export class PostsService {
 
     return await this.postRepo.save(post);
   }
+
+  async remove(id: number): Promise<boolean> {
+    const post = await this.findOne(id);
+
+    if (!post) {
+      return false;
+    }
+
+    await this.postRepo.remove(post);
+
+    return true;
+  }
 }
