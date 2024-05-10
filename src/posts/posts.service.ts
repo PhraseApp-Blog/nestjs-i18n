@@ -67,7 +67,7 @@ export class PostsService {
   async update(
     id: number,
     updatePostDto: UpdatePostDto,
-  ): Promise<Post> {
+  ): Promise<Post | null> {
     const post = await this.postRepo.findOneBy({ id });
 
     if (post) {

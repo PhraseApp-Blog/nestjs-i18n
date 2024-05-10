@@ -5,6 +5,8 @@ import {
   I18nTranslations,
 } from 'src/generated/i18n.generated';
 
+export type SupportedLang = 'en' | 'ar';
+
 @Injectable()
 export class YcI18nService {
   constructor(
@@ -18,7 +20,8 @@ export class YcI18nService {
     });
   }
 
-  lang(): 'en' | 'ar' {
-    return I18nContext.current().lang as 'en' | 'ar';
+  lang(): SupportedLang {
+    return (I18nContext.current()?.lang ||
+      'en') as SupportedLang;
   }
 }

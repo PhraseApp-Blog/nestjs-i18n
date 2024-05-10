@@ -50,7 +50,7 @@ export class TagsService {
     }));
   }
 
-  async findOne(id: number): Promise<TranslatedTag> {
+  async findOne(id: number): Promise<TranslatedTag | null> {
     const tag = await this.tagRepo
       .createQueryBuilder('tag')
       .leftJoinAndSelect(
@@ -76,7 +76,7 @@ export class TagsService {
   async update(
     id: number,
     updateTagDto: UpdateTagDto,
-  ): Promise<TranslatedTag> {
+  ): Promise<TranslatedTag | null> {
     const tag = await this.tagRepo.findOne({
       where: { id },
       relations: ['translations'],
