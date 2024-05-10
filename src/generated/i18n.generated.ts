@@ -8,6 +8,10 @@ export type I18nTranslations = {
     "common": {
         "about": string;
     };
+    "posts": {
+        "deleteSuccess": string;
+        "notFound": string;
+    };
     "routes": {
         "root": string;
         "info": string;

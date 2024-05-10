@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { YcI18nService } from 'src/yc-i18n/yc-i18n.service';
 import { Repository } from 'typeorm';
@@ -41,16 +38,17 @@ export class PostsService {
     }));
   }
 
-  async findOne(id: number): Promise<TranslatedPost> {
+  async findOne(
+    id: number,
+  ): Promise<TranslatedPost | null> {
     const lang = this.i18n.lang();
     const post = await this.postRepo.findOne({
       select: ['id', `title_${lang}`, `content_${lang}`],
       where: { id },
     });
+
     if (!post) {
-      throw new NotFoundException(
-        `Post with ID ${id} not found`,
-      );
+      return null;
     }
 
     return {
@@ -61,7 +59,7 @@ export class PostsService {
   }
 
   create(createPostDto: CreatePostDto): Promise<Post> {
-    return this.postRepo.save(createPostDto);
+    return this.postRepo.save({ ...createPostDto });
   }
 
   async update(
@@ -71,18 +69,24 @@ export class PostsService {
     const post = await this.postRepo.findOneBy({ id });
 
     if (post) {
-      post.title_en =
-        updatePostDto.title_en ?? post.title_en;
-      post.title_ar =
-        updatePostDto.title_ar ?? post.title_ar;
-      post.content_en =
-        updatePostDto.content_en ?? post.content_en;
-      post.content_ar =
-        updatePostDto.content_ar ?? post.content_ar;
-
-      this.postRepo.save(post);
+      return this.postRepo.save({
+        ...post,
+        ...updatePostDto,
+      });
     }
 
-    return post;
+    return null;
+  }
+
+  async remove(id: number): Promise<boolean> {
+    const post = await this.postRepo.findOneBy({ id });
+
+    if (!post) {
+      return false;
+    }
+
+    await this.postRepo.remove(post);
+
+    return true;
   }
 }
