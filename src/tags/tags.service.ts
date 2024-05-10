@@ -99,7 +99,7 @@ export class TagsService {
   private translatedTagFor(
     tag: Tag,
     lang?: SupportedLang,
-  ): TranslatedTag | null {
+  ): TranslatedTag {
     lang = lang || this.i18n.lang();
 
     let translation =
