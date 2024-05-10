@@ -1,9 +1,14 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
+
+enum AllowedLang {
+  en = 'en',
+}
 
 export class CreateTagDto {
   @IsNotEmpty()
   title: string;
 
   @IsNotEmpty()
-  lang: string;
+  @IsEnum(AllowedLang)
+  lang: AllowedLang;
 }

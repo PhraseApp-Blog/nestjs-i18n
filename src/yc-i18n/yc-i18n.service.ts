@@ -6,6 +6,8 @@ import {
 } from 'src/generated/i18n.generated';
 
 export type SupportedLang = 'en' | 'ar';
+export const supportedLangs: SupportedLang[] = ['en', 'ar'];
+export const defaultLang: SupportedLang = 'en';
 
 @Injectable()
 export class YcI18nService {
@@ -22,6 +24,6 @@ export class YcI18nService {
 
   lang(): SupportedLang {
     return (I18nContext.current()?.lang ||
-      'en') as SupportedLang;
+      defaultLang) as SupportedLang;
   }
 }

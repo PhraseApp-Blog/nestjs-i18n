@@ -7,6 +7,8 @@ import {
   Param,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
@@ -18,6 +20,7 @@ export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe({ whitelist: true }))
   async create(
     @Body() createTagDto: CreateTagDto,
   ): Promise<Tag> {
@@ -45,6 +48,7 @@ export class TagsController {
   }
 
   @Patch(':id')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
   async update(
     @Param('id') id: string,
     @Body() updateTagDto: UpdateTagDto,

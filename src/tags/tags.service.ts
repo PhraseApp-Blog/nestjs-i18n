@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { YcI18nService } from 'src/yc-i18n/yc-i18n.service';
+import {
+  SupportedLang,
+  YcI18nService,
+  defaultLang,
+} from 'src/yc-i18n/yc-i18n.service';
 import { Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
@@ -22,55 +26,36 @@ export class TagsService {
   ) {}
 
   async create(createTagDto: CreateTagDto): Promise<Tag> {
-    const translation = new TagTranslation();
-    translation.lang = createTagDto.lang;
-    translation.title = createTagDto.title;
-
-    const tag = new Tag();
-    tag.translations = [translation];
+    const tag = this.tagRepo.create({
+      translations: [{ ...createTagDto }],
+    });
 
     return await this.tagRepo.save(tag);
   }
 
   async findAll(): Promise<TranslatedTag[]> {
-    const tags = await this.tagRepo
-      .createQueryBuilder('tag')
-      .leftJoinAndSelect(
-        'tag.translations',
-        'translation',
-        'translation.lang = :lang',
-        { lang: this.i18n.lang() },
-      )
-      .getMany();
+    const tags = await this.tagRepo.find({
+      relations: { translations: true },
+      where: { translations: { lang: this.i18n.lang() } },
+    });
 
-    return tags.map((tag) => ({
-      id: tag.id,
-      lang: tag.translations[0]?.lang || this.i18n.lang(),
-      title: tag.translations[0]?.title ?? null,
-    }));
+    return tags.map((tag) => this.translatedTagFor(tag)!);
   }
 
   async findOne(id: number): Promise<TranslatedTag | null> {
-    const tag = await this.tagRepo
-      .createQueryBuilder('tag')
-      .leftJoinAndSelect(
-        'tag.translations',
-        'translation',
-        'translation.lang = :lang',
-        { lang: this.i18n.lang() },
-      )
-      .where('tag.id = :id', { id })
-      .getOne();
+    const tag = await this.tagRepo.findOne({
+      relations: { translations: true },
+      where: {
+        id,
+        translations: { lang: this.i18n.lang() },
+      },
+    });
 
     if (!tag) {
       return null;
     }
 
-    return {
-      id: tag.id,
-      lang: tag.translations[0]?.lang,
-      title: tag.translations[0]?.title,
-    };
+    return this.translatedTagFor(tag);
   }
 
   async update(
@@ -79,7 +64,7 @@ export class TagsService {
   ): Promise<TranslatedTag | null> {
     const tag = await this.tagRepo.findOne({
       where: { id },
-      relations: ['translations'],
+      relations: { translations: true },
     });
 
     if (!tag) {
@@ -98,17 +83,33 @@ export class TagsService {
 
     translation.title = updateTagDto.title;
 
-    await this.tagRepo.save(tag);
+    const updatedTag = await this.tagRepo.save(tag);
 
-    return {
-      id: tag.id,
-      lang: translation.lang,
-      title: translation.title,
-    };
+    return this.translatedTagFor(
+      updatedTag,
+      updateTagDto.lang,
+    );
   }
 
   async remove(id: number): Promise<boolean> {
     const result = await this.tagRepo.delete(id);
     return result.affected === 1;
+  }
+
+  private translatedTagFor(
+    tag: Tag,
+    lang?: SupportedLang,
+  ): TranslatedTag | null {
+    lang = lang || this.i18n.lang();
+
+    let translation =
+      tag.translations.find((t) => t.lang === lang) ||
+      tag.translations.find((t) => t.lang === defaultLang);
+
+    return {
+      id: tag.id,
+      lang: translation!.lang,
+      title: translation!.title,
+    };
   }
 }
