@@ -20,7 +20,7 @@ export class InfoService {
         {
           verb: 'GET',
           path: '/today',
-          description: 'Daily quote and trending posts',
+          description: 'Daily quote',
         },
         {
           posts: [
