@@ -54,6 +54,28 @@ export class InfoService {
               ),
             },
           ],
+          tags: [
+            {
+              verb: 'GET',
+              path: '/tags',
+              description: this.i18n.t('routes.tags.index'),
+            },
+            {
+              verb: 'GET',
+              path: '/tags/1',
+              description: this.i18n.t('routes.tags.one'),
+            },
+            {
+              verb: 'POST',
+              path: '/tags',
+              description: this.i18n.t('routes.tags.post'),
+            },
+            {
+              verb: 'PATCH',
+              path: '/tags/1',
+              description: this.i18n.t('routes.tags.patch'),
+            },
+          ],
         },
       ],
     };

@@ -7,5 +7,11 @@
     "one": "Post with ID 1",
     "post": "Create a new post",
     "patch": "Update a post with ID 1"
+  },
+  "tags": {
+    "index": "Index of all tags",
+    "one": "Tag with ID 1",
+    "post": "Create a new tag",
+    "patch": "Update a tag with ID 1"
   }
 }

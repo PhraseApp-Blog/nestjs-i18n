@@ -22,6 +22,13 @@ export type I18nTranslations = {
             "post": string;
             "patch": string;
         };
+        "tags": {
+            "index": string;
+            "one": string;
+            "tag": string;
+            "patch": string;
+            "post": string;
+        };
     };
     "today": {
         "quote": string;
