@@ -27,7 +27,9 @@ export class PostsService {
     return await this.postRepo.findOneBy({ id });
   }
 
-  create(createPostDto: CreatePostDto): Promise<Post> {
+  async create(
+    createPostDto: CreatePostDto,
+  ): Promise<Post> {
     const newPost = this.postRepo.create({
       ...createPostDto,
     });
